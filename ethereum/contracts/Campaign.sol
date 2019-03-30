@@ -3,8 +3,8 @@ pragma solidity ^0.4.17;
 contract CampaignFactory {
     address[] public deployedCampaigns;
 
-    function createCampaign(uint minimum) public {
-        address newCampaign = new Campaign(minimum, msg.sender);
+    function createCampaign(uint minimum,string name,string description,string image,uint target) public {
+        address newCampaign = new Campaign(minimum, msg.sender,name,description,image,target);
         deployedCampaigns.push(newCampaign);
     }
 
@@ -27,6 +27,10 @@ contract Campaign {
     Request[] public requests;
     address public manager;
     uint public minimunContribution;
+    string public CampaignName;
+    string public CampaignDescription;
+    string public imageUrl;
+    uint public targetToAchive;
     mapping(address => bool) public approvers;
     uint public approversCount;
 
@@ -35,9 +39,13 @@ contract Campaign {
         _;
     }
 
-    function Campaign(uint minimun, address creator) public {
+    function Campaign(uint minimun, address creator,string name,string description,string image,uint target) public {
         manager = creator;
         minimunContribution = minimun;
+        CampaignName=name;
+        CampaignDescription=description;
+        imageUrl=image;
+        targetToAchive=target;
     }
 
     function contibute() public payable {
@@ -74,14 +82,17 @@ contract Campaign {
         requests[index].recipient.transfer(requests[index].value);
         requests[index].complete = true;
     }
-
-    function getSummary() public view returns (uint,uint,uint,uint,address) {
+    function getSummary() public view returns (uint,uint,uint,uint,address,string,string,string,uint) {
         return(
             minimunContribution,
             this.balance,
             requests.length,
             approversCount,
-            manager
+            manager,
+            CampaignName,
+            CampaignDescription,
+            imageUrl,
+            targetToAchive
           );
     }
 

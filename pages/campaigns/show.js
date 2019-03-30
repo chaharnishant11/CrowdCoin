@@ -18,15 +18,24 @@ class CampaignShow extends Component {
       balance: summary[1],
       requestsCount: summary[2],
       approversCount: summary[3],
-      manager: summary[4]
+      manager: summary[4],
+      name: summary[5],
+      description: summary[6],
+      image: summary[7],
+      target: summary[8]
     };
   }
 
   renderCards(){
     const {
-      balance,manager,minimumContribution,requestsCount,approversCount
+      balance,manager,minimumContribution,requestsCount,approversCount,name,description,image,traget
     } = this.props;
     const items = [
+      {
+        header: <img src={image} style={{ width: 100, align: "center"}} />,
+        meta: name,
+        description: description
+      },
       {
         header:manager,
         meta: 'Address of manager',

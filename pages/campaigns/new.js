@@ -8,6 +8,10 @@ import { Router } from '../../routes';
 class CampaignNew extends Component {
   state ={
     minimumContribution: '',
+    description:'',
+    campaignName:'',
+    target:'',
+    imageUrl:'',
     errorMessage: '',
     loading: false
   };
@@ -18,7 +22,7 @@ class CampaignNew extends Component {
     this.setState({loading:true, errorMessage: ''});
     try{
       const accounts = await web3.eth.getAccounts();
-      await factory.methods.createCampaign(this.state.minimumContribution)
+      await factory.methods.createCampaign(this.state.minimumContribution,this.state.campaignName,this.state.description,this.state.imageUrl,this.state.target)
         .send({
           from: accounts[0]
         });
@@ -43,6 +47,44 @@ class CampaignNew extends Component {
               value={this.state.minimumContribution}
               onChange={
                 event => this.setState({minimumContribution: event.target.value})
+              }
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Campaign Name</label>
+            <Input
+              value={this.state.campaignName}
+              onChange={
+                event => this.setState({campaignName: event.target.value})
+              }
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Campaign Description</label>
+            <Input
+              value={this.state.description}
+              onChange={
+                event => this.setState({description: event.target.value})
+              }
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Image Url</label>
+            <Input
+              value={this.state.imageUrl}
+              onChange={
+                event => this.setState({imageUrl: event.target.value})
+              }
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Target</label>
+            <Input
+              label="wei"
+              labelPosition="right"
+              value={this.state.target}
+              onChange={
+                event => this.setState({target: event.target.value})
               }
             />
           </Form.Field>
