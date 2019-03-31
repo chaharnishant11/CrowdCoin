@@ -31,10 +31,14 @@ class CampaginIndex extends Component {
       if (this.state.summary) summ = this.state.summary[i];
       else summ = {"5": "null", "7":"null"};
       return{
+        key:i,
         image: <img src={summ[7]} style={ {width:150}} />,
         header: summ[5],
         meta: address,
-        description: <Link route={`/campaigns/${address}`}><a>View Campaign</a></Link>,
+        description: <div>
+                      <Link route={`/campaigns/${address}`}><a>View Campaign &nbsp;</a></Link>
+                      <a href={`http://localhost:8000/?name=${summ[5]}&description=${summ[6]}`}>Coummunity</a>
+                    </div>,
         fluid:true,
         style: {overflowWrap: 'break-word'}
       };

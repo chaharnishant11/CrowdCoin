@@ -15,73 +15,84 @@ contract CampaignFactory {
 
 
 contract Campaign {
-    struct Request {
-        string description;
-        uint value;
-        address recipient;
-        bool complete;
-        uint approvalCount;
-        mapping(address => bool) approvals;
-    }
+  struct Request {
+      string description;
+      uint value;
+      address recipient;
+      bool complete;
+      uint approvalCount;
+      mapping(address => bool) approvals;
+  }
 
-    Request[] public requests;
-    address public manager;
-    uint public minimunContribution;
-    string public CampaignName;
-    string public CampaignDescription;
-    string public imageUrl;
-    uint public targetToAchive;
-    mapping(address => bool) public approvers;
-    uint public approversCount;
+  Request[] public requests;
+  address public manager;
+  uint public minimunContribution;
+  string public CampaignName;
+  string public CampaignDescription;
+  string public imageUrl;
+  uint public targetToAchive;
+  address[] public contributers;
+  mapping(address => bool) public approvers;
+  uint public approversCount;
+  uint public profit;
 
-    modifier restricted() {
-        require(msg.sender == manager);
-        _;
-    }
+  modifier restricted() {
+      require(msg.sender == manager);
+      _;
+  }
 
-    function Campaign(uint minimun, address creator,string name,string description,string image,uint target) public {
-        manager = creator;
-        minimunContribution = minimun;
-        CampaignName=name;
-        CampaignDescription=description;
-        imageUrl=image;
-        targetToAchive=target;
-    }
+  function Campaign(uint minimun, address creator,string name,string description,string image,uint target) public {
+      manager = creator;
+      minimunContribution = minimun;
+      CampaignName=name;
+      CampaignDescription=description;
+      imageUrl=image;
+      targetToAchive=target;
+  }
 
-    function contibute() public payable {
-        require(msg.value > minimunContribution );
+  function contibute() public payable {
+      require(msg.value > minimunContribution );
 
-        approvers[msg.sender] = true;
-        approversCount++;
-    }
+      contributers.push(msg.sender);
+      approvers[msg.sender] = true;
+      approversCount++;
+  }
 
-    function createRequest(string description, uint value, address recipient) public restricted {
-        Request memory newRequest = Request({
-           description: description,
-           value: value,
-           recipient: recipient,
-           complete: false,
-           approvalCount: 0
-        });
+  function createRequest(string description, uint value, address recipient) public restricted {
+      Request memory newRequest = Request({
+         description: description,
+         value: value,
+         recipient: recipient,
+         complete: false,
+         approvalCount: 0
+      });
 
-        requests.push(newRequest);
-    }
+      requests.push(newRequest);
+  }
 
-    function approveRequest(uint index) public {
-        require(approvers[msg.sender]);
-        require(!requests[index].approvals[msg.sender]);
+  function approveRequest(uint index) public {
+      require(approvers[msg.sender]);
+      require(!requests[index].approvals[msg.sender]);
 
-        requests[index].approvals[msg.sender] = true;
-        requests[index].approvalCount++;
-    }
+      requests[index].approvals[msg.sender] = true;
+      requests[index].approvalCount++;
+  }
 
-    function finalizeRequest(uint index) public restricted{
-        require(requests[index].approvalCount > (approversCount / 2));
-        require(!requests[index].complete);
+  function finalizeRequest(uint index) public restricted{
+      require(requests[index].approvalCount > (approversCount / 2));
+      require(!requests[index].complete);
 
-        requests[index].recipient.transfer(requests[index].value);
-        requests[index].complete = true;
-    }
+      requests[index].recipient.transfer(requests[index].value);
+      requests[index].complete = true;
+
+  }
+
+  function getProfit(uint p) public restricted {
+      uint profitPer = p/contributers.length;
+      for(uint i=0;i<contributers.length;i++){
+          contributers[i].transfer(profitPer);
+      }
+  }
     function getSummary() public view returns (uint,uint,uint,uint,address,string,string,string,uint) {
         return(
             minimunContribution,

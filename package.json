@@ -4,19 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js",
+    "export": "npm run build && next export"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "fs-extra": "^7.0.1",
+    "fusioncharts": "^3.13.4",
     "ganache-cli": "^6.4.1",
     "mocha": "^6.0.2",
     "next": "^4.1.4",
     "next-routes": "^1.4.2",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
+    "react-fusioncharts": "^3.0.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.86.0",
     "solc": "^0.4.25",

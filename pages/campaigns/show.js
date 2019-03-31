@@ -1,10 +1,11 @@
 import React,{ Component } from 'react';
-import { Card,Grid, Button } from 'semantic-ui-react';
+import { Card,Grid, Button, Image } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import web3 from '../../ethereum/web3';
 import ContributeForm from '../../components/ContributeForm';
 import Campaign from '../../ethereum/campaign';
 import { Link } from '../../routes';
+import Profit from '../../components/profit';
 
 class CampaignShow extends Component {
   static async getInitialProps(props) {
@@ -82,6 +83,8 @@ class CampaignShow extends Component {
             </Grid.Column>
             <Grid.Column width={6}>
               <ContributeForm address={this.props.address} />
+              <Profit address={this.props.address} />
+              <Image src='https://serving.photos.photobox.com/688688952ac5948018d22a7332cdc62a08378718d6fd49a97ccc3886115db5ae9e330f7a.jpg' style={{marginTop:15}}/>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
