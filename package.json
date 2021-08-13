@@ -16,7 +16,7 @@
     "fusioncharts": "^3.13.4",
     "ganache-cli": "^6.4.1",
     "mocha": "^6.0.2",
-    "next": "^9.3.2",
+    "next": "^11.1.0",
     "next-routes": "^1.4.2",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
