@@ -15,7 +15,7 @@
     "fs-extra": "^7.0.1",
     "fusioncharts": "^3.13.4",
     "ganache-cli": "^6.4.1",
-    "mocha": "^6.0.2",
+    "mocha": "^10.2.0",
     "next": "^9.3.2",
     "next-routes": "^1.4.2",
     "react": "^16.8.5",
